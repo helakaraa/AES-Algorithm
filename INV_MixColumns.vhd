@@ -1,0 +1,98 @@
+library ieee;
+use ieee.std_logic_1164.all;
+
+entity INV_MixColumns is
+
+    port (input  : in  std_logic_vector(0 to 127);
+          output : out std_logic_vector(0 to 127));
+
+end INV_MixColumns;
+
+architecture INV_MixColumns_architecture of INV_MixColumns is
+
+    component Xtime
+        port (input : in  std_logic_vector(7 downto 0);
+0              output : out  std_logic_vector(7 downto 0));
+    end component;
+
+    signal xtm, w: std_logic_vector(0 to 127) := (others => '0');
+
+begin
+
+    generate_xtm: for i in 0 to 15 generate begin
+
+        for_each_byte: Xtime port map (input => input(8*i to 8*i+7),
+                                       output => xtm(8*i to 8*i+7));
+    end generate;
+
+
+ w(127 downto 120) := xtm(127 downto 120) xor
+                    xtm(119 downto 112) xor
+                    xtm(111 downto 104) xor
+                    xtm(103 downto 96);
+ w(119 downto 112) := xtm(127 downto 120) xor
+                    xtm(119 downto 112) xor
+                    xtm(111 downto 104) xor
+                    xtm(103 downto 96);
+ w(111 downto 104) := xtm(127 downto 120) xor
+                    xtm(119 downto 112) xor
+                    xtm(111 downto 104) xor
+                    xtm(103 downto 96);
+ w(103 downto 96) := xtm(127 downto 120) xor
+                    xtm(119 downto 112) xor
+                    xtm(111 downto 104) xor
+                    xtm(103 downto 96);
+ w(95 downto 88) := xtm(95 downto 88) xor
+                    xtm(87 downto 80) xor
+                    xtm(79 downto 72) xor
+                    xtm(71 downto 64);
+ w(87 downto 80) := xtm(95 downto 88) xor
+                   xtm(87 downto 80) xor
+                   xtm(79 downto 72) xor
+                   xtm(71 downto 64);
+ w(79 downto 72) := xtm(95 downto 88) xor
+                   xtm(87 downto 80) xor
+                   xtm(79 downto 72) xor
+                   xtm(71 downto 64);
+ w(71 downto 64) := xtm(95 downto 88) xor
+                   xtm(87 downto 80) xor
+                   xtm(79 downto 72) xor
+                   xtm(71 downto 64);
+
+w(63 downto 56) := xtm(63 downto 56) xor
+                   xtm(55 downto 48) xor
+                   xtm(47 downto 40) xor
+                   xtm(39 downto 32);
+w(55 downto 48) := xtm(63 downto 56) xor
+                   xtm(55 downto 48) xor
+                   xtm(47 downto 40) xor
+                   xtm(39 downto 32);
+w(47 downto 40) := xtm(63 downto 56) xor
+                   xtm(55 downto 48) xor
+                   xtm(47 downto 40) xor
+                   xtm(39 downto 32);
+w(39 downto 32) := xtm(63 downto 56) xor
+                   xtm(55 downto 48) xor
+                   xtm(47 downto 40) xor
+                   xtm(39 downto 32);
+w(31 downto 24) := xtm(31 downto 24) xor
+                   xtm(23 downto 16) xor
+                   xtm(15 downto 8) xor
+                   xtm(7 downto 0);
+W(23 downto 16) := xtm(31 downto 24) xor
+                   xtm(23 downto 16) xor
+                   xtm(15 downto 8) xor
+                   xtm(7 downto 0);
+W(15 downto 8) := xtm(31 downto 24) xor
+                   xtm(23 downto 16) xor
+                   xtm(15 downto 8) xor
+                   xtm(7 downto 0);
+w(7 downto 0) :=xtm(31 downto 24) xor
+                   xtm(23 downto 16) xor
+                   xtm(15 downto 8) xor
+                   xtm(7 downto 0);
+
+
+    output <= w;
+
+end INV_MixColumns_architecture;
