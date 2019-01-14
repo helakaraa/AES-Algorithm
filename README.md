@@ -1,6 +1,4 @@
 # AES-Algorithm
-Implémentation Hardware d’un Algorithme AES sur le processeur NIOS II.  VHDL en utilisant QUARTUS et ModelSIM.
-
 
 The AES algorithm is a symmetric-key cipher in whish, the encryption and decryption keys are the same. Thus communicating parties must agree on a secret key before they wish to communicate.
  
